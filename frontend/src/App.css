@@ -1,0 +1,304 @@
+/* frontend/src/App.css */
+
+/* --- 1. Theming and Global Styles --- */
+/* We define our color scheme here for consistency */
+:root {
+  --background-main: #1a1a1a;
+  --surface-1: #242424;
+  --surface-2: #2e2e2e;
+  --primary-color: #00a991; /* A brighter, more modern teal */
+  --primary-hover: #00796b;
+  --text-main: #f0f0f0;
+  --text-secondary: #a0a0a0;
+  --border-color: #444;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  background-color: var(--background-main);
+  color: var(--text-main);
+}
+
+/* --- 2. Main App Layout --- */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-header {
+  background-color: var(--surface-1);
+  border-bottom: 1px solid var(--border-color);
+  color: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+/* Three-column dashboard layout */
+.dashboard-layout-3-col {
+  display: flex;
+  padding: 1.5rem;
+  gap: 1.5rem;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.dashboard-forms,
+.dashboard-sidebar,
+.dashboard-map {
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Important for flex children */
+}
+
+.dashboard-forms { flex: 1.2; min-width: 350px; }
+.dashboard-sidebar { flex: 1.5; min-width: 380px; }
+.dashboard-map { flex: 3; border-radius: 8px; }
+
+
+/* --- 3. Shared Container Styles (Forms & Sidebar) --- */
+.form-container,
+.sidebar-container {
+  background-color: var(--surface-1);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--border-color);
+}
+
+.sidebar-header,
+.form-section h2 {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-main);
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.form-section {
+  padding: 1.5rem;
+}
+
+
+/* --- 4. Form & Input Styling --- */
+input[type="text"],
+input[type="number"] {
+  display: block;
+  width: calc(100% - 1.6rem); /* Adjust width to account for padding */
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-2);
+  color: var(--text-main);
+  font-size: 1rem;
+}
+
+input::placeholder {
+  color: var(--text-secondary);
+}
+
+button[type="submit"] {
+  width: 100%;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--primary-hover);
+}
+
+.form-instruction {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--text-secondary);
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding: 0 1.5rem;
+}
+
+.location-display {
+  background-color: rgba(0, 169, 145, 0.1);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  padding: 0.75rem;
+  margin: 0 1.5rem 1.5rem 1.5rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+
+/* --- 5. Sidebar & Match Card Styling --- */
+.sidebar-content {
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.sidebar-content > p {
+  color: var(--text-secondary);
+}
+
+.match-card {
+  background-color: var(--surface-2);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.match-card h3 {
+  margin-top: 0;
+  color: var(--primary-color);
+}
+
+.match-card p {
+  margin: 0.5rem 0;
+}
+
+.match-card button {
+  width: 100%;
+  margin-top: 0.75rem;
+  background-color: var(--primary-hover);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.match-card button:hover {
+  background-color: var(--primary-color);
+}
+
+
+/* --- 6. Producer List & Map Popup Styling --- */
+.producer-list {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  margin: 1.5rem;
+  margin-top: 0;
+}
+
+.producer-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+.producer-item:last-child { border-bottom: none; }
+
+.producer-item span { font-weight: 500; }
+
+.producer-item button {
+  background-color: var(--primary-hover);
+  color: white;
+  border: none;
+  font-size: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.popup-analysis h4 {
+  margin: 8px 0 4px 0;
+  font-size: 0.9rem;
+  color: var(--primary-color);
+}
+.popup-analysis ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 0.85rem;
+}
+
+
+/* --- 7. Loading Overlay --- */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(5px);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  z-index: 10000;
+  font-weight: 500;
+}
+
+/* Add these new styles to the end of frontend/src/App.css */
+
+.executive-summary {
+  background-color: var(--surface-2);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.executive-summary h3 {
+  margin-top: 0;
+  color: var(--primary-color);
+}
+
+.rank-badge {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.analysis-section {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.analysis-section h4 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.analysis-section p,
+.analysis-section ul {
+  font-size: 0.9rem;
+  color: var(--text-main);
+  margin-bottom: 1rem;
+}
+
+.analysis-section ul {
+  padding-left: 20px;
+}

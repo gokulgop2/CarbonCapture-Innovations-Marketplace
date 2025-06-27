@@ -1,0 +1,128 @@
+{
+  "producers": [
+    {
+      "id": "prod_001",
+      "name": "Cal-Portland Cement (Redding Plant)",
+      "location": {
+        "lat": 40.5865,
+        "lon": -122.3917
+      },
+      "co2_supply_tonnes_per_week": 500
+    },
+    {
+      "id": "prod_002",
+      "name": "Central Valley Ethanol",
+      "location": {
+        "lat": 36.33,
+        "lon": -119.64
+      },
+      "co2_supply_tonnes_per_week": 350
+    },
+    {
+      "id": "prod_73b787d2-89eb-4465-b0c2-543ef7d490a1",
+      "name": "Texas Petro Solutions",
+      "location": {
+        "lat": 32.7767,
+        "lon": -96.797
+      },
+      "co2_supply_tonnes_per_week": 800
+    },
+    {
+      "id": "prod_39242437-f3e0-424a-a777-f35126ac56eb",
+      "name": "Orlando Small-Scale Ethanol",
+      "location": {
+        "lat": 28.5383,
+        "lon": -81.3792
+      },
+      "co2_supply_tonnes_per_week": 150
+    },
+    {
+      "id": "prod_9ad8b4e6-3fb5-4054-91ad-ea7ee3af2b59",
+      "name": "Carlsbad Energy Center",
+      "location": {
+        "lat": 33.1581,
+        "lon": -117.3506
+      },
+      "co2_supply_tonnes_per_week": 950
+    },
+    {
+      "id": "prod_23336605-ac5a-4480-99cb-40ba39321c34",
+      "name": "CalPortland Mojave Cement",
+      "location": {
+        "lat": 35.0536,
+        "lon": -118.1722
+      },
+      "co2_supply_tonnes_per_week": 1500
+    },
+    {
+      "id": "prod_b7852ae9-0647-487a-972d-96689f32044e",
+      "name": "Long Beach Refining Co.",
+      "location": {
+        "lat": 33.7701,
+        "lon": -118.1937
+      },
+      "co2_supply_tonnes_per_week": 2500
+    },
+    {
+      "id": "prod_4ebd47fd-93cc-481a-aa9b-fc1b5e2d140a",
+      "name": "Avenida Carbon Co.",
+      "location": {
+        "lat": 33.0661495,
+        "lon": -117.2430927
+      },
+      "co2_supply_tonnes_per_week": 1200
+    }
+  ],
+  "consumers": [
+    {
+      "id": "cons_001",
+      "name": "SoCal Concrete Inc.",
+      "industry": "Concrete Curing",
+      "location": {
+        "lat": 34.0522,
+        "lon": -118.2437
+      },
+      "co2_demand_tonnes_per_week": 200
+    },
+    {
+      "id": "cons_002",
+      "name": "Plenty Vertical Farms (Compton)",
+      "industry": "Vertical Farming",
+      "location": {
+        "lat": 33.8958,
+        "lon": -118.2201
+      },
+      "co2_demand_tonnes_per_week": 75
+    },
+    {
+      "id": "cons_003",
+      "name": "Pacific Biofuel Solutions",
+      "industry": "Biofuel Synthesis",
+      "location": {
+        "lat": 37.7749,
+        "lon": -122.4194
+      },
+      "co2_demand_tonnes_per_week": 400
+    },
+    {
+      "id": "cons_004",
+      "name": "Bay Area Beverages",
+      "industry": "Beverage Carbonation",
+      "location": {
+        "lat": 37.8044,
+        "lon": -122.2711
+      },
+      "co2_demand_tonnes_per_week": 50
+    },
+    {
+      "id": "cons_d22445ed-6882-45bb-9d66-c6e9c6ea5939",
+      "name": "Miami High-Demand Chemicals",
+      "industry": "Chemical Synthesis",
+      "location": {
+        "lat": 25.7617,
+        "lon": -80.1918
+      },
+      "co2_demand_tonnes_per_week": 1000
+    }
+  ]
+}
