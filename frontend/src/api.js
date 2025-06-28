@@ -35,7 +35,7 @@ export const getMatches = async (producerId) => {
 };
 
 export const getAnalyzedMatches = async (producer, matches) => {
-  // THE FIX IS ON THE LINE BELOW: API_BASHSE_URL has been corrected to API_BASE_URL
+  // THIS IS THE FIX: Corrected the typo from API_BASHSE_URL to API_BASE_URL
   const response = await fetch(`${API_BASE_URL}/api/analyze-matches`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
