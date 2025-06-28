@@ -1,110 +1,38 @@
 // frontend/src/App.jsx
 
 import React, { useState } from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
 import './App.css';
-import RegistrationForm from './components/RegistrationForm';
-import MapView from './components/MapView';
-import Sidebar from './components/Sidebar';
-import ImpactModal from './components/ImpactModal'; // Import the new modal
-import { getMatches, getAnalyzedMatches, getImpactReport } from './api'; // Import the new report function
+
+// Import the new page components
+import HomePage from './pages/HomePage';
+import RegisterProducerPage from './pages/RegisterProducerPage';
+import RegisterConsumerPage from './pages/RegisterConsumerPage';
 
 function App() {
-  const [analysisReport, setAnalysisReport] = useState(null);
-  const [selectedProducer, setSelectedProducer] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  // State for the selected location from the map will live here
+  // so it can be passed to the registration pages.
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const [mapFocus, setMapFocus] = useState(null);
-  
-  // New state for the impact report modal
-  const [impactReport, setImpactReport] = useState(null);
-
-  const handleFindMatches = async (producer) => {
-    if (!producer || !producer.id) return;
-    
-    setIsLoading(true);
-    setSelectedProducer(producer);
-    setAnalysisReport(null);
-    setMapFocus(null);
-    setImpactReport(null); // Clear any old reports
-
-    try {
-      const initialMatches = await getMatches(producer.id);
-      if (initialMatches.length === 0) {
-        alert(`No potential matches found for ${producer.name}.`);
-        setIsLoading(false);
-        return;
-      }
-      const report = await getAnalyzedMatches(producer, initialMatches);
-      setAnalysisReport(report);
-      
-    } catch (error) {
-      alert(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleLocationSelect = (location) => {
-    setSelectedLocation({ lat: location.y, lon: location.x });
-  };
-
-  const handleSelectMatch = (match) => {
-    setMapFocus({
-      center: [match.location.lat, match.location.lon],
-      zoom: 12,
-    });
-  };
-
-  // This new function calls the API and opens the modal
-  const handleGenerateReport = async (match) => {
-    if (!selectedProducer || !match) return;
-    setIsLoading(true);
-    try {
-      const reportData = await getImpactReport(selectedProducer, match);
-      setImpactReport(reportData);
-    } catch (error) {
-      alert(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div className="app-container">
-      {isLoading && <div className="loading-overlay">Analyzing...</div>}
-      
-      {/* This renders the modal when there is report data */}
-      <ImpactModal report={impactReport} onClose={() => setImpactReport(null)} />
-
       <header className="app-header">
-        <h1>CarbonCapture Innovations Marketplace</h1>
+        {/* Main navigation links */}
+        <Link to="/" className="header-title-link"><h1>CarbonCapture Innovations Marketplace</h1></Link>
+        <nav className="header-nav">
+          <Link to="/" className="nav-link">Dashboard</Link>
+          {/* This Link passes the selectedLocation state to the registration page */}
+          <Link to="/register-producer" state={{ location: selectedLocation }} className="nav-link">Register as Producer</Link>
+          <Link to="/register-consumer" state={{ location: selectedLocation }} className="nav-link">Register as Consumer</Link>
+        </nav>
       </header>
 
-      <main className="dashboard-layout-3-col">
-        <div className="dashboard-forms">
-          <RegistrationForm 
-            onFindMatches={handleFindMatches} 
-            selectedLocation={selectedLocation}
-            onFormSubmit={() => setSelectedLocation(null)} 
-          />
-        </div>
-        <div className="dashboard-sidebar">
-          <Sidebar 
-            producer={selectedProducer} 
-            report={analysisReport} 
-            onSelectMatch={handleSelectMatch}
-            onGenerateReport={handleGenerateReport}
-          />
-        </div>
-        <div className="dashboard-map">
-          <MapView 
-            selectedProducer={selectedProducer} 
-            matches={analysisReport ? analysisReport.ranked_matches : []}
-            onLocationSelect={handleLocationSelect}
-            mapFocus={mapFocus}
-          />
-        </div>
-      </main>
+      {/* This section defines the page that renders for each URL path */}
+      <Routes>
+        <Route path="/" element={<HomePage setSelectedLocation={setSelectedLocation} />} />
+        <Route path="/register-producer" element={<RegisterProducerPage />} />
+        <Route path="/register-consumer" element={<RegisterConsumerPage />} />
+      </Routes>
     </div>
   );
 }

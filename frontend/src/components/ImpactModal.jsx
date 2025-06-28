@@ -9,6 +9,10 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 function ImpactModal({ report, onClose }) {
   if (!report) return null;
 
+  const handlePrint = () => {
+    window.print(); // This is the built-in browser function to open the print dialog
+  };
+
   const chartData = {
     labels: ['CO₂ Impact (Tonnes/Year)'],
     datasets: [
@@ -36,8 +40,14 @@ function ImpactModal({ report, onClose }) {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close-btn" onClick={onClose}>&times;</button>
-        <h2>Impact Report: {report.producer_name} &rarr; {report.consumer_name}</h2>
+        {/* The modal-header now contains the title and buttons */}
+        <div className="modal-header">
+          <h2>Impact Report: {report.producer_name} &rarr; {report.consumer_name}</h2>
+          <div className="modal-actions">
+            <button className="modal-print-btn" onClick={handlePrint}>Print Report</button>
+            <button className="modal-close-btn" onClick={onClose}>&times;</button>
+          </div>
+        </div>
         
         <div className="report-section">
           <h3>Financial Analysis (Annual)</h3>

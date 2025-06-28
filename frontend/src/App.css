@@ -1,4 +1,4 @@
-/* frontend/src/App.css - FINAL VERSION */
+/* frontend/src/App.css - FINAL POLISHED VERSION */
 
 /* --- 1. Theming and Global Styles --- */
 :root {
@@ -16,7 +16,7 @@ html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Prevent the entire page from ever getting a scrollbar */
+  overflow: hidden;
 }
 
 body {
@@ -30,36 +30,40 @@ body {
 .app-container {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Make the app container exactly the screen height */
+  height: 100vh;
 }
 
 .app-header {
   background-color: var(--surface-1);
   border-bottom: 1px solid var(--border-color);
   padding: 1rem 2rem;
-  flex-shrink: 0; /* Prevent the header from shrinking */
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-
-.app-header h1 {
-  margin: 0;
-  font-size: 1.5rem;
-  color: var(--primary-color);
+.header-title-link { text-decoration: none; }
+.header-nav { display: flex; gap: 1.5rem; }
+.nav-link {
+  color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: color 0.2s;
 }
+.nav-link:hover { color: var(--primary-color); }
+.app-header h1 { margin: 0; font-size: 1.5rem; color: var(--primary-color); }
 
 .dashboard-layout-3-col {
   display: flex;
   padding: 1.5rem;
   gap: 1.5rem;
   flex-grow: 1;
-  overflow: hidden; /* Crucial for containing the flex children */
+  overflow: hidden;
 }
 
 .dashboard-forms,
 .dashboard-sidebar,
 .dashboard-map {
-  display: flex; /* All columns are flex containers */
-  flex-direction: column; /* Their content will stack vertically */
-  min-height: 0; /* A key fix for nested flexbox scrolling */
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .dashboard-forms { flex: 1.2; min-width: 350px; }
@@ -67,18 +71,20 @@ body {
 .dashboard-map { flex: 3; border-radius: 8px; }
 
 
-/* --- 3. Shared Container Styles (Forms & Sidebar) --- */
-.form-container,
-.sidebar-container {
+/* --- 3. Panel & Container Styles --- */
+.producer-list-container,
+.sidebar-container,
+.form-container {
   background-color: var(--surface-1);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   border: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
-  height: 100%; /* Make containers fill their column */
+  height: 100%;
 }
 
+.panel-header,
 .sidebar-header,
 .form-section h2 {
   padding: 1rem 1.5rem;
@@ -86,40 +92,26 @@ body {
   color: var(--text-main);
   margin: 0;
   font-size: 1.2rem;
-  flex-shrink: 0; /* Prevent headers from shrinking */
+  flex-shrink: 0;
 }
 
+
 /* --- 4. Content Area Scrolling Fix --- */
+.producer-list-content,
 .sidebar-content,
-.form-container { /* Applying this to the form column as well for consistency */
-  overflow-y: auto; /* Enable vertical scrolling ONLY on these elements */
-  flex-grow: 1; /* Make these content areas fill all available space */
+.form-container {
+  overflow-y: auto;
+  flex-grow: 1;
 }
 
 .sidebar-content { padding: 1.5rem; }
 .form-section { padding: 1.5rem; }
+.producer-list-content { padding: 1rem; }
 
 
-/* --- 5. All Other Styles (No changes needed) --- */
-
-.match-card, .executive-summary {
-  background-color: var(--surface-2);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  flex-shrink: 0;
-}
-.executive-summary h3, .match-card h3 {
-  margin-top: 0; color: var(--primary-color);
-}
-.match-card p, .executive-summary p { margin: 0.5rem 0; }
-.match-card button {
-  width: 100%; margin-top: 0.75rem; background-color: var(--primary-hover); color: white; border: none;
-  border-radius: 4px; padding: 0.5rem 1rem; cursor: pointer; transition: background-color 0.2s ease;
-}
-.match-card button:hover { background-color: var(--primary-color); }
-
+/* --- 5. All Other Styles --- */
+.registration-page { padding: 2rem; display: flex; justify-content: center; }
+.registration-page .form-container { width: 100%; max-width: 600px; height: fit-content; }
 
 input[type="text"], input[type="number"] {
   display: block; width: calc(100% - 1.6rem); padding: 0.8rem; margin-bottom: 1rem;
@@ -128,10 +120,11 @@ input[type="text"], input[type="number"] {
 }
 input::placeholder { color: var(--text-secondary); }
 
-button[type="submit"] {
-  width: 100%; background-color: var(--primary-color); color: white; border: none; padding: 0.8rem 1.5rem;
-  border-radius: 4px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s;
+button[type="submit"], .match-card button {
+  width: 100%; color: white; border: none; border-radius: 4px; font-weight: 500;
+  cursor: pointer; transition: background-color 0.2s ease;
 }
+button[type="submit"] { background-color: var(--primary-color); padding: 0.8rem 1.5rem; font-size: 1rem; }
 button[type="submit"]:hover { background-color: var(--primary-hover); }
 
 .form-instruction { font-size: 0.9rem; font-style: italic; color: var(--text-secondary); margin: -0.5rem 0 1rem 0; }
@@ -139,15 +132,30 @@ button[type="submit"]:hover { background-color: var(--primary-hover); }
   background-color: rgba(0, 169, 145, 0.1); color: var(--primary-color); border: 1px solid var(--primary-color);
   border-radius: 4px; padding: 0.75rem; margin-bottom: 1.5rem; text-align: center; font-weight: 500;
 }
-.producer-list {
-  max-height: 200px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 4px; margin-top: 1rem;
-}
 .producer-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-bottom: 1px solid var(--border-color); }
 .producer-item:last-child { border-bottom: none; }
 .producer-item span { font-weight: 500; }
 .producer-item button {
   background-color: var(--primary-hover); color: white; border: none; font-size: 0.8rem; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer;
 }
+.producer-item button:hover { background-color: var(--primary-color); }
+
+.executive-summary, .match-card {
+  background-color: var(--surface-2); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem; margin-bottom: 1rem; flex-shrink: 0;
+}
+.executive-summary h3, .match-card h3 { margin-top: 0; color: var(--primary-color); }
+.match-card p, .executive-summary p { margin: 0.5rem 0; }
+.card-buttons { display: flex; gap: 0.5rem; margin-top: 1rem; }
+.card-buttons button { flex: 1; padding: 0.5rem 1rem; }
+.match-card button { background-color: var(--primary-hover); }
+.match-card button:hover { background-color: var(--primary-color); }
+.report-btn { background-color: #5e35b1 !important; }
+.report-btn:hover { background-color: #4527a0 !important; }
+
+.logistics-details { margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed var(--border-color); }
+.logistics-details h4 { margin-top: 0; color: #ff7800; }
+.net-impact { font-weight: bold; background-color: var(--surface-2); padding: 0.5rem; border-radius: 4px; }
+
 .popup-analysis h4 { margin: 8px 0 4px 0; font-size: 0.9rem; color: var(--primary-color); }
 .popup-analysis ul { margin: 0; padding-left: 18px; font-size: 0.85rem; }
 
@@ -167,15 +175,6 @@ button[type="submit"]:hover { background-color: var(--primary-hover); }
 .analysis-section p, .analysis-section ul { font-size: 0.9rem; color: var(--text-main); margin-bottom: 1rem; }
 .analysis-section ul { padding-left: 20px; }
 
-/* Add these styles for the Impact Report Modal */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 15000; }
-.modal-content { background: var(--surface-1); color: var(--text-main); border-radius: 8px; padding: 2rem; width: 90%; max-width: 800px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative; }
-.modal-close-btn { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 2rem; color: var(--text-secondary); cursor: pointer; }
-.report-section { margin-bottom: 2rem; }
-.metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center; }
-.metric-card { background: var(--surface-2); padding: 1rem; border-radius: 6px; }
-.metric-card h4 { margin: 0 0 0.5rem 0; color: var(--text-secondary); }
-.metric-card p { margin: 0; font-size: 1.5rem; font-weight: bold; color: var(--primary-color); }
-.net-impact-final { text-align: center; font-size: 1.2rem; margin-top: 1.5rem; }
-.report-btn { background-color: #5e35b1 !important; } /* A new color for this button */
-.report-btn:hover { background-color: #4527a0 !important; }
+
+/* --- Print Styles --- */
+@media print { /* ... */ }
