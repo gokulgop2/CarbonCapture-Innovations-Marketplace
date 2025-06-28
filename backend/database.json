@@ -71,6 +71,15 @@
         "lon": -117.2430927
       },
       "co2_supply_tonnes_per_week": 1200
+    },
+    {
+      "id": "prod_de12c84b-ccaa-4e14-85e6-33cf6c41d6c0",
+      "name": "High Bluff Energy",
+      "location": {
+        "lat": 32.9924065,
+        "lon": -117.2133009
+      },
+      "co2_supply_tonnes_per_week": 200
     }
   ],
   "consumers": [
