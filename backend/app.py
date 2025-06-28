@@ -141,6 +141,57 @@ def analyze_matches():
         print(f"An Azure OpenAI error occurred: {e}")
         return jsonify({"error": "Failed to get AI analysis."}), 500
 
+# Add this new function to backend/app.py
+
+@app.route('/api/impact-model', methods=['POST'])
+def impact_model():
+    data = request.get_json()
+    producer = data.get('producer')
+    consumer = data.get('consumer')
+
+    if not producer or not consumer:
+        return jsonify({"error": "Producer and consumer data are required"}), 400
+
+    # --- Financial & Environmental Assumptions ---
+    # These are estimates for our model. A real app would have configurable inputs.
+    # Based on voluntary carbon market estimates (can range widely)
+    carbon_credit_price_per_tonne = 25.00 # USD
+    # Estimated market price for purchased industrial CO2
+    industrial_co2_price_per_tonne = 75.00 # USD
+    weeks_per_year = 52
+
+    # --- Calculations ---
+    tonnes_per_week = min(producer['co2_supply_tonnes_per_week'], consumer['co2_demand_tonnes_per_week'])
+    tonnes_per_year = tonnes_per_week * weeks_per_year
+
+    # Financial Model
+    annual_revenue_for_producer = tonnes_per_year * carbon_credit_price_per_tonne
+    annual_savings_for_consumer = tonnes_per_year * industrial_co2_price_per_tonne
+    
+    # We can reuse the logistics calculation from the other feature idea for emissions
+    # For simplicity here, we'll use a rough estimate. A full implementation would call OSRM.
+    # Assumption: 0.05 tonnes of CO2 emitted per 100km of trucking
+    estimated_delivery_emissions = (consumer['distance_km'] / 100) * 0.05 * weeks_per_year
+    
+    net_co2_sequestered = tonnes_per_year - estimated_delivery_emissions
+
+    # --- Return the Report ---
+    return jsonify({
+        "producer_name": producer['name'],
+        "consumer_name": consumer['name'],
+        "annual_tonnage": round(tonnes_per_year, 2),
+        "financials": {
+            "producer_annual_revenue": round(annual_revenue_for_producer, 2),
+            "consumer_annual_savings": round(annual_savings_for_consumer, 2),
+            "carbon_credit_value": round(annual_revenue_for_producer, 2)
+        },
+        "environmental": {
+            "co2_diverted": round(tonnes_per_year, 2),
+            "estimated_logistics_emissions": round(estimated_delivery_emissions, 2),
+            "net_co2_impact": round(net_co2_sequestered, 2)
+        }
+    })
+
 # --- Run the App ---
 if __name__ == '__main__':
     app.run(debug=True)
