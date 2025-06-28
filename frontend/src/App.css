@@ -276,3 +276,391 @@ td em {
 .remove-btn:hover {
   background-color: #d32f2f !important;
 }
+
+/* --- Landing Page --- */
+.landing-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(rgba(26, 26, 26, 0.8), rgba(26, 26, 26, 0.8)), url('https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=2070'); /* A generic tech background */
+  background-size: cover;
+  text-align: center;
+  color: white;
+}
+.landing-content {
+  max-width: 800px;
+  padding: 2rem;
+}
+.landing-content h1 {
+  font-size: 4rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+.landing-content p {
+  font-size: 1.25rem;
+  color: var(--text-main);
+  margin-bottom: 2rem;
+}
+.cta-button {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 2.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  transition: background-color 0.2s, transform 0.2s;
+}
+.cta-button:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+/* --- Logout Button --- */
+.logout-btn {
+  background: none;
+  border: 1px solid var(--text-secondary);
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.logout-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+/* --- Welcome Modal --- */
+.welcome-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20000; /* Highest z-index */
+  color: var(--text-main);
+  text-align: center;
+}
+
+.welcome-modal-content {
+  background-color: var(--surface-1);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 3rem 4rem;
+  max-width: 800px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.welcome-modal-content h1 {
+  color: var(--primary-color);
+  font-size: 3rem;
+  margin: 0 0 1rem 0;
+}
+
+.welcome-modal-content > p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto 2.5rem auto;
+}
+
+.welcome-modal-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.role-selection {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.role-button {
+  flex: 1;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text-main);
+  background-color: var(--surface-2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.role-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+.role-button h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--primary-color);
+}
+
+.role-button p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.guest-button {
+  margin-top: 3rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.guest-button:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+/* --- Landing Page --- */
+/* frontend/src/App.css - FINAL VERSION */
+
+/* --- 1. Theming and Global Styles --- */
+:root {
+  --background-main: #1a1a1a;
+  --surface-1: #242424;
+  --surface-2: #2e2e2e;
+  --primary-color: #00a991;
+  --primary-hover: #00796b;
+  --text-main: #f0f0f0;
+  --text-secondary: #a0a0a0;
+  --border-color: #444;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: var(--background-main);
+  color: var(--text-main);
+}
+
+/* --- 2. Main App & Layout Containers --- */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.dashboard-layout-3-col {
+  display: flex;
+  padding: 1.5rem;
+  gap: 1.5rem;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.registration-page {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* --- 3. Landing Page --- */
+.landing-page {
+  width: 100%;
+  height: 100vh;
+  color: white;
+  position: relative; /* THIS IS THE KEY FIX: Establishes stacking context */
+  overflow: hidden;
+}
+
+.landing-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(26, 26, 26, 0.7), rgba(26, 26, 26, 0.9)), url('https://images.unsplash.com/photo-1611095965923-892481362d57?q=80&w=2070');
+  background-size: cover;
+  background-position: center;
+  z-index: 1; /* Puts the overlay in the back */
+}
+
+.landing-content {
+  position: relative; /* Ensures this content respects the z-index */
+  z-index: 2; /* Puts the content on top of the overlay */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.landing-header {
+  padding: 1rem 2rem;
+  text-align: left;
+}
+.landing-header h1 {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.landing-main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+}
+.landing-main h2 {
+  font-size: 4rem;
+  margin: 0 0 1rem 0;
+}
+.landing-main p {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin-bottom: 3rem;
+}
+.role-selection {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+.role-button {
+  flex-basis: 300px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text-main);
+  background-color: rgba(46, 46, 46, 0.8);
+  backdrop-filter: blur(5px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.role-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 169, 145, 0.2);
+  border-color: var(--primary-color);
+}
+.role-button h3 { margin: 0 0 0.5rem 0; color: var(--primary-color); }
+.role-button p { margin: 0; color: var(--text-secondary); font-size: 0.9rem; }
+.guest-button {
+  margin-top: 3rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 1rem;
+  text-decoration: none;
+}
+.guest-button:hover { color: var(--primary-color); }
+
+
+/* --- Shared Header for Internal App --- */
+.app-header {
+  background-color: var(--surface-1);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 2rem;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-title-link { text-decoration: none; }
+.header-nav { display: flex; gap: 1.5rem; align-items: center; }
+.nav-link {
+  color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: color 0.2s;
+}
+.nav-link:hover { color: var(--primary-color); }
+
+/* frontend/src/App.css - FINAL POLISHED VERSION */
+
+/* --- 1. Theming and Global Styles --- */
+:root {
+  --background-main: #121212;
+  --surface-1: #1e1e1e;
+  --surface-2: #2a2a2a;
+  --primary-color: #00c8a3; /* A brighter, more modern teal */
+  --primary-hover: #00a98a;
+  --text-main: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --border-color: #3a3a3a;
+}
+
+body {
+  font-family: 'Inter', sans-serif; /* Use the new professional font */
+  background-color: var(--background-main);
+  color: var(--text-main);
+  margin: 0;
+  padding: 0;
+}
+/* ... (html, #root styles remain the same) ... */
+
+/* --- 2. Logo --- */
+.logo-container { display: flex; align-items: center; gap: 0.75rem; }
+.logo-icon { color: var(--primary-color); font-size: 1.8rem; }
+.logo-text { font-size: 1.3rem; font-weight: 600; color: var(--text-main); }
+
+
+/* --- 3. Main App & Header Layout --- */
+.app-header {
+  /* ... (header styles are mostly the same) ... */
+  border-bottom: 1px solid var(--border-color);
+  backdrop-filter: blur(8px);
+  background-color: rgba(30, 30, 30, 0.8);
+}
+.nav-link { /* ... */ }
+.logout-btn {
+  background: none; border: 1px solid var(--border-color); color: var(--text-secondary);
+  padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; display: flex;
+  align-items: center; gap: 0.5rem; transition: all 0.2s ease;
+}
+.logout-btn:hover { border-color: var(--primary-color); color: var(--primary-color); }
+
+
+/* --- 4. Landing Page --- */
+.landing-page { /* ... */ }
+.landing-main h2 { font-size: 3.5rem; font-weight: 700; }
+.role-button { /* ... */ border-color: var(--border-color); }
+.role-button:hover { /* ... */ border-color: var(--primary-color); }
+.role-icon { color: var(--primary-color); margin-bottom: 1rem; }
+
+
+/* --- 5. All other styles --- */
+/* (This contains all the other styles we've built. No major changes,
+   but small tweaks to transitions and colors have been made for consistency) */
+.panel-header { display: flex; align-items: center; gap: 0.75rem; }
+
+/* ... (all other styles for dashboard, sidebar, forms, cards, modals) ... */
+
+/* --- UPGRADED Loading Overlay --- */
+.loading-overlay {
+  /* ... (same positioning) ... */
+  z-index: 20000;
+}
+/* This creates a CSS-only spinner instead of text */
+.loading-overlay::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 60px;
+  border: 6px solid var(--surface-1);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

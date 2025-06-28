@@ -1,9 +1,25 @@
 // frontend/src/pages/ComparisonPage.jsx
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-function ComparisonPage({ watchlist, onRemove }) {
+function ComparisonPage() {
+  const [watchlist, setWatchlist] = useState([]);
+
+  useEffect(() => {
+    const savedWatchlist = localStorage.getItem('carbonWatchlist');
+    if (savedWatchlist) {
+      setWatchlist(JSON.parse(savedWatchlist));
+    }
+  }, []);
+
+  const handleRemove = (matchId) => {
+    const updatedWatchlist = watchlist.filter(item => item.id !== matchId);
+    setWatchlist(updatedWatchlist);
+    localStorage.setItem('carbonWatchlist', JSON.stringify(updatedWatchlist));
+    window.dispatchEvent(new Event('watchlistUpdated'));
+  };
+
   if (watchlist.length === 0) {
     return (
       <main className="registration-page">
@@ -11,7 +27,7 @@ function ComparisonPage({ watchlist, onRemove }) {
           <div className="form-section">
             <h2>My Watchlist is Empty</h2>
             <p className="form-instruction">
-              Go to the <Link to="/">Dashboard</Link> to find and save opportunities.
+              Go to the <Link to="/dashboard">Dashboard</Link> to find and save opportunities.
             </p>
           </div>
         </div>
@@ -45,7 +61,8 @@ function ComparisonPage({ watchlist, onRemove }) {
                 <td>{item.co2_demand_tonnes_per_week}</td>
                 <td>{item.distance_km}</td>
                 <td><em>{item.analysis.synopsis}</em></td>
-                <td><button className="remove-btn" onClick={() => onRemove(item.id)}>Remove</button></td>
+                {/* THIS BUTTON NOW CORRECTLY CALLS handleRemove */}
+                <td><button className="remove-btn" onClick={() => handleRemove(item.id)}>Remove</button></td>
               </tr>
             ))}
           </tbody>
