@@ -166,3 +166,16 @@ button[type="submit"]:hover { background-color: var(--primary-hover); }
 .analysis-section h4 { margin-top: 0; margin-bottom: 0.5rem; color: var(--text-secondary); }
 .analysis-section p, .analysis-section ul { font-size: 0.9rem; color: var(--text-main); margin-bottom: 1rem; }
 .analysis-section ul { padding-left: 20px; }
+
+/* Add these styles for the Impact Report Modal */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 15000; }
+.modal-content { background: var(--surface-1); color: var(--text-main); border-radius: 8px; padding: 2rem; width: 90%; max-width: 800px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative; }
+.modal-close-btn { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 2rem; color: var(--text-secondary); cursor: pointer; }
+.report-section { margin-bottom: 2rem; }
+.metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center; }
+.metric-card { background: var(--surface-2); padding: 1rem; border-radius: 6px; }
+.metric-card h4 { margin: 0 0 0.5rem 0; color: var(--text-secondary); }
+.metric-card p { margin: 0; font-size: 1.5rem; font-weight: bold; color: var(--primary-color); }
+.net-impact-final { text-align: center; font-size: 1.2rem; margin-top: 1.5rem; }
+.report-btn { background-color: #5e35b1 !important; } /* A new color for this button */
+.report-btn:hover { background-color: #4527a0 !important; }

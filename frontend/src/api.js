@@ -63,3 +63,13 @@ export const getAnalyzedMatches = async (producer, matches) => {
     }
     return response.json();
   };
+
+  export const getImpactReport = async (producer, consumer) => {
+    const response = await fetch(`${API_BASE_URL}/api/impact-model`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ producer, consumer }),
+    });
+    if (!response.ok) { throw new Error('Failed to generate impact report'); }
+    return response.json();
+  };
