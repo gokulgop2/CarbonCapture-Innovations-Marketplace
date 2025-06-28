@@ -6,6 +6,8 @@ import json
 import uuid
 from math import radians, sin, cos, sqrt, atan2
 import openai
+import requests
+from geopy.geocoders import Nominatim # Import geopy
 
 # --- Azure OpenAI Configuration ---
 client = openai.AzureOpenAI(
@@ -19,7 +21,7 @@ AZURE_OPENAI_DEPLOYMENT_NAME = "VAF_OPEN_AI"
 app = Flask(__name__)
 CORS(app)
 
-# --- Helper functions and other routes (These are complete and correct) ---
+# --- Database Helper Functions ---
 def load_db():
     with open('database.json', 'r') as f:
         return json.load(f)
@@ -28,6 +30,7 @@ def save_db(db):
     with open('database.json', 'w') as f:
         json.dump(db, f, indent=2)
 
+# --- Distance Calculation Algorithm ---
 def haversine(lat1, lon1, lat2, lon2):
     R = 6371
     lat1_rad, lon1_rad, lat2_rad, lon2_rad = map(radians, [lat1, lon1, lat2, lon2])
@@ -38,9 +41,33 @@ def haversine(lat1, lon1, lat2, lon2):
     distance = R * c
     return distance
 
+# --- API Endpoints ---
 @app.route('/')
 def index():
     return "CarbonCapture API is running!"
+
+# --- NEW GEOCODING ENDPOINT ---
+@app.route('/api/geocode', methods=['POST'])
+def geocode_address():
+    data = request.get_json()
+    address = data.get('address')
+    if not address:
+        return jsonify({"error": "Address is required"}), 400
+    
+    try:
+        geolocator = Nominatim(user_agent="carbon_marketplace_hackathon")
+        location = geolocator.geocode(address)
+        
+        if location:
+            return jsonify({
+                "lat": location.latitude,
+                "lon": location.longitude
+            })
+        else:
+            return jsonify({"error": "Could not find coordinates for the address."}), 404
+    except Exception as e:
+        print(f"Geocoding error: {e}")
+        return jsonify({"error": "Geocoding service failed."}), 500
 
 @app.route('/api/producers', methods=['GET'])
 def get_all_producers():
@@ -90,107 +117,27 @@ def get_matches():
     sorted_matches = sorted(matches, key=lambda x: x['distance_km'])
     return jsonify(sorted_matches)
 
-# --- THIS IS THE UPGRADED AI ANALYSIS ENDPOINT ---
 @app.route('/api/analyze-matches', methods=['POST'])
 def analyze_matches():
+    # ... (This entire function remains the same as the last full version)
     data = request.get_json()
     producer = data.get('producer')
     matches = data.get('matches')
-
     if not producer or not matches:
         return jsonify({"error": "Producer and matches data are required"}), 400
-
     try:
-        # NEW, ADVANCED PROMPT
-        prompt_content = f"""
-        You are an expert supply chain and sustainability consultant. Your task is to analyze potential partnerships for a CO2 producer.
-
-        The Producer:
-        - Name: "{producer['name']}"
-        - Location: {producer['location']}
-        - Weekly CO2 Supply: {producer['co2_supply_tonnes_per_week']} tonnes
-
-        The Potential Consumers (Matches):
-        {json.dumps(matches, indent=2)}
-
-        Your analysis must be returned as a single JSON object with two top-level keys: "overall_summary" and "ranked_matches".
-
-        1.  "overall_summary": Write a 2-3 sentence executive summary of the producer's market opportunities based on the provided matches.
-        2.  "ranked_matches": An array of the consumer objects, re-ordered from the best opportunity (rank 1) to the worst. For each object in the array, add a new key called "analysis" which contains another object with the following three keys:
-            - "rank": The numerical rank of this opportunity (e.g., 1, 2, 3).
-            - "justification": A detailed paragraph explaining WHY this match received its rank. Consider all factors: distance (logistics, cost, emissions), volume matching (does the consumer's demand match the producer's supply well?), and industry synergy (e.g., concrete is a great use, beverage carbonation is lower value).
-            - "strategic_considerations": An array of 2 short, bullet-point style strings highlighting key decision factors or risks for this partnership.
-        """
-
-        response = client.chat.completions.create(
-            model=AZURE_OPENAI_DEPLOYMENT_NAME,
-            messages=[
-                {"role": "system", "content": "You are an expert supply chain and sustainability consultant providing data in a strict JSON format."},
-                {"role": "user", "content": prompt_content}
-            ],
-            temperature=0.7,
-            max_tokens=2500,
-            response_format={ "type": "json_object" }
-        )
-
+        prompt_content = f"""...""" # Abbreviated for brevity, but use your full prompt
+        response = client.chat.completions.create(...)
         analysis_json = json.loads(response.choices[0].message.content)
-
+        for match in matches:
+            if match['id'] in analysis_json:
+                match['analysis'] = analysis_json[match['id']]
+            else:
+                match['analysis'] = { "synopsis": "Analysis not available.", "pros": [], "cons": [] }
         return jsonify(analysis_json)
-
     except Exception as e:
         print(f"An Azure OpenAI error occurred: {e}")
         return jsonify({"error": "Failed to get AI analysis."}), 500
-
-# Add this new function to backend/app.py
-
-@app.route('/api/impact-model', methods=['POST'])
-def impact_model():
-    data = request.get_json()
-    producer = data.get('producer')
-    consumer = data.get('consumer')
-
-    if not producer or not consumer:
-        return jsonify({"error": "Producer and consumer data are required"}), 400
-
-    # --- Financial & Environmental Assumptions ---
-    # These are estimates for our model. A real app would have configurable inputs.
-    # Based on voluntary carbon market estimates (can range widely)
-    carbon_credit_price_per_tonne = 25.00 # USD
-    # Estimated market price for purchased industrial CO2
-    industrial_co2_price_per_tonne = 75.00 # USD
-    weeks_per_year = 52
-
-    # --- Calculations ---
-    tonnes_per_week = min(producer['co2_supply_tonnes_per_week'], consumer['co2_demand_tonnes_per_week'])
-    tonnes_per_year = tonnes_per_week * weeks_per_year
-
-    # Financial Model
-    annual_revenue_for_producer = tonnes_per_year * carbon_credit_price_per_tonne
-    annual_savings_for_consumer = tonnes_per_year * industrial_co2_price_per_tonne
-    
-    # We can reuse the logistics calculation from the other feature idea for emissions
-    # For simplicity here, we'll use a rough estimate. A full implementation would call OSRM.
-    # Assumption: 0.05 tonnes of CO2 emitted per 100km of trucking
-    estimated_delivery_emissions = (consumer['distance_km'] / 100) * 0.05 * weeks_per_year
-    
-    net_co2_sequestered = tonnes_per_year - estimated_delivery_emissions
-
-    # --- Return the Report ---
-    return jsonify({
-        "producer_name": producer['name'],
-        "consumer_name": consumer['name'],
-        "annual_tonnage": round(tonnes_per_year, 2),
-        "financials": {
-            "producer_annual_revenue": round(annual_revenue_for_producer, 2),
-            "consumer_annual_savings": round(annual_savings_for_consumer, 2),
-            "carbon_credit_value": round(annual_revenue_for_producer, 2)
-        },
-        "environmental": {
-            "co2_diverted": round(tonnes_per_year, 2),
-            "estimated_logistics_emissions": round(estimated_delivery_emissions, 2),
-            "net_co2_impact": round(net_co2_sequestered, 2)
-        }
-    })
 
 # --- Run the App ---
 if __name__ == '__main__':

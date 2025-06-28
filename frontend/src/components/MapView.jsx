@@ -57,7 +57,7 @@ L.Icon.Default.mergeOptions({
 
 
 // --- Main MapView Component ---
-function MapView({ selectedProducer, matches, onLocationSelect, mapFocus }) {
+function MapView({ selectedProducer, matches = [], onLocationSelect, mapFocus }) {
   const mapCenter = [39.8283, -98.5795];
   const zoomLevel = 4;
   const focusZoomLevel = 9;
@@ -74,28 +74,25 @@ function MapView({ selectedProducer, matches, onLocationSelect, mapFocus }) {
         worldCopyJump={true}
       >
         <ChangeView focus={currentFocus} />
-        
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
 
-        <SearchField onLocationSelect={onLocationSelect} />
+        {/* onLocationSelect is now optional */}
+        {onLocationSelect && <SearchField onLocationSelect={onLocationSelect} />}
 
+        {/* Conditionally render markers only if they exist */}
         {selectedProducer && (
           <Marker position={[selectedProducer.location.lat, selectedProducer.location.lon]}>
-            <Popup>
-              <strong>PRODUCER: {selectedProducer.name}</strong>
-            </Popup>
+            <Popup><strong>PRODUCER: {selectedProducer.name}</strong></Popup>
           </Marker>
         )}
 
         {matches.map((match) => (
           <Marker key={match.id} position={[match.location.lat, match.location.lon]}>
             <Popup>
-              <strong>
-                <span className="rank-badge">{match.analysis.rank}</span> {match.name}
-              </strong>
+              <strong><span className="rank-badge">{match.analysis.rank}</span> {match.name}</strong>
               <div className="popup-analysis">
                 <p><em>{match.analysis.justification}</em></p>
               </div>
