@@ -1,0 +1,7 @@
+Flask
+Flask-Cors
+openai
+geopy
+pandas
+openpyxl
+requests

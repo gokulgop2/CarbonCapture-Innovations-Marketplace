@@ -80,6 +80,15 @@
         "lon": -117.2133009
       },
       "co2_supply_tonnes_per_week": 200
+    },
+    {
+      "id": "prod_3d9fbe62-908d-4862-ae1c-033d9e235dd2",
+      "name": "CarbonCapture Innovations",
+      "location": {
+        "lat": 33.1391751,
+        "lon": -117.307275
+      },
+      "co2_supply_tonnes_per_week": 3000
     }
   ],
   "consumers": [
