@@ -1,21 +1,47 @@
-# CarbonCapture Innovations Marketplace
+# CarbonFlow: The CarbonCapture Innovations Marketplace
 
-A B2B platform connecting CO₂ producers with consumers to create a circular carbon economy. Developed for the Code4Hope 2025 Hackathon.
+**Submission for the Code4Hope 2025 Hackathon (Sustainability Track)**
 
-## Problem Focus
-[cite_start]Tackling the challenge from CarbonCapture Innovations [cite: 48][cite_start], we address the high cost of carbon capture by creating a market for captured CO₂, turning an environmental liability into a financial asset[cite: 49].
+## 🚀 The Problem
+For a company like **CarbonCapture Innovations**, capturing CO₂ is only half the battle. The real challenge is transforming that captured carbon from a costly liability into a valuable asset. They "struggle with what to do with the captured carbon," which limits their growth and impact.
 
-## Features
-* **Producer/Consumer Registration:** Users can register as CO₂ suppliers or consumers.
-* **Interactive Matchmaking Map:** Select a producer to see all viable, geographically-close consumer matches visualized on an interactive map.
-* **Supply/Demand Algorithm:** Our backend automatically filters matches to ensure a producer's supply can meet a consumer's demand.
+##💡 Our Solution
+CarbonFlow is an intelligent B2B marketplace that creates an ecosystem for the circular carbon economy. We connect CO₂ producers directly with consumers, using an advanced AI consultant to provide deep, strategic insights that turn potential partnerships into profitable, sustainable ventures.
 
-## Tech Stack
-* **Frontend:** React, Vite, Leaflet.js
+---
+
+## ✨ Key Features
+
+* **AI-Powered Opportunity Report:** Our core innovation. Instead of a simple list, users get an AI-generated report that **ranks** potential partners and provides a detailed **justification**, pros, and cons for each.
+* **Financial & Environmental Impact Modeling:** A dashboard that quantifies the ROI of any partnership, modeling annual revenue, consumer savings, and the **net carbon impact** after calculating logistics emissions.
+* **Interactive Geospatial Dashboard:** A three-panel interface featuring a dynamic Leaflet map, a producer selection panel, and the main AI report sidebar.
+* **Address-Based Registration:** A seamless, user-friendly registration flow that uses backend geocoding to convert a simple address into precise map coordinates.
+* **Comparison Watchlist:** Users can save promising opportunities to a persistent watchlist and view them side-by-side in a dedicated comparison table.
+
+---
+
+## 💻 Technology Stack
+
+* **Frontend:** React, Vite, React Router, Leaflet, Chart.js
 * **Backend:** Python, Flask
-* **Database:** JSON file-based (for MVP)
+* **AI & Geocoding:** Microsoft Azure OpenAI Service, `geopy` with OpenStreetMap
+* **Version Control:** Git & GitHub
 
-## How to Run
-1.  Clone the repository.
-2.  Run the backend: `cd backend`, `pip install -r requirements.txt`, `python app.py`.
-3.  Run the frontend: `cd frontend`, `npm install`, `npm run dev`.
+---
+
+## 🎥 Demo Video
+
+**[Link to your 2-3 minute YouTube or Loom video]**
+
+---
+
+## 🖼️ Screenshots
+
+**The Landing Page:**
+![Landing Page](URL_to_your_screenshot.png)
+
+**The Main Dashboard:**
+![Dashboard](URL_to_your_screenshot.png)
+
+**The AI-Generated Impact Report Modal:**
+![Impact Report](URL_to_your_screenshot.png)
